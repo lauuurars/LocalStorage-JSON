@@ -120,10 +120,37 @@ const dataCitas = [
         autor: "Bruce Lee", 
         cita: "No reces por una vida fácil, reza por la fuerza para soportar una difícil." 
     }
-  ];
-  
+];
+
   // Verifica si ya hay citas en Local Storage si no las almacena serializandolas
   // Recupera las  citas del Local Storage y las deserializa y retorna las citas obtenidas
   // Obtiene las citas y las muestra de modo aleatorio y las pinta en el HTML
   // Para mostrar la cita la primera vez
   // Cambia la cita cuando se presiona el boton
+
+//Verificamos si hay citas en el localStorage
+//guardamos el array en el localstorage y lo serializamos
+
+if (!localStorage.getItem('citas')) {
+    localStorage.setItem('citas', JSON.stringify(dataCitas))
+}
+
+//Recuperamos las citas del localStorage y las deserializamos
+
+const traerCitas = JSON.parse(localStorage.getItem('citas'))
+const boton = document.querySelector('#boton')
+console.log(traerCitas) //mostramos las citas deserializadas en consola
+
+boton.addEventListener('click', mostrarCita) //agregamos el event listener para ejecutar la función
+
+//creamos la función que muestra la cita aleatoria
+function mostrarCita () {
+    const miCita = document.getElementById('cita')
+    const miAutor = document.getElementById('autor')
+
+    const index = Math.floor(Math.random() * traerCitas.length)
+    miCita.innerText = traerCitas[index].cita
+    miAutor.innerText = traerCitas[index].autor
+}
+
+document.addEventListener('DOMContentLoaded', mostrarCita) //ejecutamos la función al cargar el DOM y se tiene la seguridad de que todos los elementos están cargados
